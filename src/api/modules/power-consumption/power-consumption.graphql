@@ -1,0 +1,7 @@
+type Query {
+  CurrentPowerConsumption: CurrentPowerConsumption!
+}
+
+type CurrentPowerConsumption {
+  measurement: Int!
+}
