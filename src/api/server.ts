@@ -1,9 +1,9 @@
 import { Options, GraphQLServer } from 'graphql-yoga';
-import { fileLoader } from 'merge-graphql-schemas';
+import { fileLoader, mergeResolvers, mergeTypes } from 'merge-graphql-schemas';
 import * as path from 'path';
 import { Service } from 'typedi';
 import { TypeORMConnection } from '../core/data/typeorm/typeorm-connection';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 
 @Service()
 export class Server {
@@ -11,17 +11,17 @@ export class Server {
     private typeORMConnection: TypeORMConnection,
   ) {}
 
-  async configure() {
-    await this.configureDB();
-  }
+  async start() {
+    const connection: Connection = await this.configureDB();
+    console.log('Connected to Postgres!')
 
-  start() {
-    const typeDefs = fileLoader(path.join(__dirname, "./**/*.graphql"));
-    const resolvers = fileLoader(path.join(__dirname, "./**/*.resolvers.*"));
+    const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './**/*.graphql')));
+    const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './**/*.resolvers.*')));
 
     const server = new GraphQLServer({
       typeDefs,
       resolvers,
+      context: { connection: connection },
     });
 
     const options: Options = {
@@ -37,10 +37,10 @@ export class Server {
 
   private async configureDB() {
     try {
-      await createConnection(this.typeORMConnection.getConnectionOptions())
+      const entitiesPath = path.join(__dirname, '../entities/**/*.*')
+      return await createConnection(this.typeORMConnection.getConnectionOptions(entitiesPath));
     } catch (error) {
       console.warn(error);
     }
-    console.log('Connected to Postgres!')
   }
 }

@@ -7,7 +7,4 @@ dotenv.config();
 
 const server = Container.get(Server);
 
-server.configure()
-  .then(() => {
-    server.start();
-  });
+server.start();
