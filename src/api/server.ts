@@ -1,7 +1,7 @@
 import { Options, GraphQLServer } from 'graphql-yoga';
 import { fileLoader, mergeResolvers, mergeTypes } from 'merge-graphql-schemas';
 import * as path from 'path';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 import { TypeORMConnection } from '../core/data/typeorm/typeorm-connection';
 import { createConnection, Connection } from 'typeorm';
 
@@ -12,7 +12,8 @@ export class Server {
   ) {}
 
   async start() {
-    const connection: Connection = await this.configureDB();
+    const connection = await this.configureDB();
+    Container.set(Connection, connection);
     console.log('Connected to Postgres!')
 
     const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './**/*.graphql')));
@@ -21,7 +22,6 @@ export class Server {
     const server = new GraphQLServer({
       typeDefs,
       resolvers,
-      context: { connection: connection },
     });
 
     const options: Options = {
@@ -40,7 +40,8 @@ export class Server {
       const entitiesPath = path.join(__dirname, '../entities/**/*.*')
       return await createConnection(this.typeORMConnection.getConnectionOptions(entitiesPath));
     } catch (error) {
-      console.warn(error);
+      console.warn(error.message);
+      process.exit(1);
     }
   }
 }

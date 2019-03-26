@@ -5,7 +5,7 @@ const dataSource = getCustomRepository(PowerConsumptionDataSource);
 
 export default {
   Query: {
-    CurrentPowerConsumption: async (_parent, _args, context: { connection: Connection }) => {
+    CurrentPowerConsumption: async () => {
       const powerConsumption = await dataSource.get();
       return { measurement: powerConsumption.total};
     }

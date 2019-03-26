@@ -5,7 +5,7 @@ const dateSource = getCustomRepository(LabsoftConsumptionDataSource);
 
 export default {
   Query: {
-    LabsoftLastMonthConsumption: async (_parent, _args, _ctx) => {
+    LabsoftLastMonthConsumption: async () => {
       const lastMonthConsumption = await dateSource.getLastMonthConsumption();
       return { measurement: lastMonthConsumption.total };
     }

@@ -1,5 +1,5 @@
 import { Repository, EntityRepository } from "typeorm";
-import { endOfMonth, subDays } from "date-fns";
+import { subDays } from "date-fns";
 
 import { LabsoftConsumption } from "../../../entities/labsoft-consumption";
 
