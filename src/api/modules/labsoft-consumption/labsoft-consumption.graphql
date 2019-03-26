@@ -1,0 +1,7 @@
+type Query {
+  LabsoftLastMonthConsumption: LabsoftLastMonthConsumption!
+}
+
+type LabsoftLastMonthConsumption {
+  measurement: Float!
+}

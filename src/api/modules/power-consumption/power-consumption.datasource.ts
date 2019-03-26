@@ -1,8 +1,8 @@
 import { EntityRepository, Repository } from "typeorm";
-import { PowerConsumption } from "../../../entities/power-consumption";
+import { CurrentPowerConsumption } from "../../../entities/current-power-consumption";
 
-@EntityRepository(PowerConsumption)
-export class PowerConsumptionDataSource extends Repository<PowerConsumption> {
+@EntityRepository(CurrentPowerConsumption)
+export class PowerConsumptionDataSource extends Repository<CurrentPowerConsumption> {
   get() {
     return this.createQueryBuilder()
       .getOne();
