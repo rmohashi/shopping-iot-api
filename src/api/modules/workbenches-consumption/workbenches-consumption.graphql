@@ -1,0 +1,7 @@
+type Query {
+  LabsoftWorkbenchesPowerConsumption: LabsoftWorkbenchesPowerConsumption! 
+}
+
+type LabsoftWorkbenchesPowerConsumption {
+  measurement: Float!
+}
