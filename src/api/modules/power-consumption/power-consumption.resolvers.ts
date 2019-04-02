@@ -1,10 +1,11 @@
 import { PowerConsumptionDataSource } from './power-consumption.datasource';
-import { Connection } from 'typeorm';
+import { getCustomRepository, Connection } from 'typeorm';
+
+const dataSource = getCustomRepository(PowerConsumptionDataSource);
 
 export default {
   Query: {
-    CurrentPowerConsumption: async (_parent, _args, context: { connection: Connection }) => {
-      const dataSource = context.connection.getCustomRepository(PowerConsumptionDataSource);
+    CurrentPowerConsumption: async () => {
       const powerConsumption = await dataSource.get();
       return { measurement: powerConsumption.total};
     }
