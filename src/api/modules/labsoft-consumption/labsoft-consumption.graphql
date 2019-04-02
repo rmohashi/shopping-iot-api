@@ -1,7 +1,19 @@
 type Query {
   LabsoftLastMonthConsumption: LabsoftLastMonthConsumption!
+  LabsoftLastMonthDailyConsumption: LabsoftLastMonthDailyConsumption!
 }
 
 type LabsoftLastMonthConsumption {
   measurement: Float!
+  average: Float!
+}
+
+type LabsoftLastMonthDailyConsumption {
+  dailyConsumption: [LabsoftDailyConsumption!]!
+}
+
+type LabsoftDailyConsumption {
+  day: String!
+  average: Float!
+  peak: Float!
 }

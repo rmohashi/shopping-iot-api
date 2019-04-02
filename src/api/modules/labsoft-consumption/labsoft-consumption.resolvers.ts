@@ -7,7 +7,22 @@ export default {
   Query: {
     LabsoftLastMonthConsumption: async () => {
       const lastMonthConsumption = await dataSource.getLastMonthConsumption();
-      return { measurement: lastMonthConsumption.total };
+      return { 
+        measurement: lastMonthConsumption.average * 0.72,
+        average: lastMonthConsumption.average / 1000
+      };
+    },
+
+    LabsoftLastMonthDailyConsumption: async () => {
+      const dailyConsumption = await dataSource.getLastMonthDailyConsumption();
+      const mappedDailyConsumption = dailyConsumption.map(singleConsumption => ({
+        ...singleConsumption,
+        day: singleConsumption.day.toISOString(),
+      }));
+
+      return { 
+        dailyConsumption: mappedDailyConsumption
+      };
     }
   }
 }
