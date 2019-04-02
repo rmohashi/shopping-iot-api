@@ -1,4 +1,5 @@
 import { getCustomRepository } from "typeorm";
+import { format } from "date-fns";
 import { LabsoftConsumptionDataSource } from "./labsoft-consumption.datasource";
 
 const dataSource = getCustomRepository(LabsoftConsumptionDataSource);
@@ -14,9 +15,10 @@ export default {
     },
 
     LabsoftLastMonthDailyConsumption: async () => {
-      const dailyConsumption = await dataSource.getLastMonthDailyConsumption();
+      let dailyConsumption = await dataSource.getLastMonthDailyConsumption();
+      dailyConsumption.reverse();
       const labels = dailyConsumption.reduce((newArray, singleConsumption) => {
-        newArray.push(singleConsumption.day.toISOString());
+        newArray.push(format(singleConsumption.day, "DD"));
         return newArray;
       }, []);
       const peaks = dailyConsumption.reduce((newArray, singleConsumption) => {
