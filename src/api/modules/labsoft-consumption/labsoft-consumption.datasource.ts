@@ -23,4 +23,12 @@ export class LabsoftConsumptionDataSource extends Repository<LabsoftConsumption>
       .limit(30)
       .getRawMany();
   }
+
+  getCurrentMonthBillingPreview() {
+    return this.createQueryBuilder().select("EXTRACT(month from time)", "month")
+      .addSelect("AVG(consumo_total) * 0.354", "value")
+      .groupBy("month")
+      .orderBy("month", "DESC")
+      .getRawOne();
+  }
 }

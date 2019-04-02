@@ -19,9 +19,16 @@ export default {
         ...singleConsumption,
         day: singleConsumption.day.toISOString(),
       }));
-
       return { 
         dailyConsumption: mappedDailyConsumption
+      };
+    },
+
+    LabsoftCurrentMonthBillPreview: async () => {
+      const billingPreview = await dataSource.getCurrentMonthBillingPreview();
+      return { 
+        month: billingPreview.month,
+        value: billingPreview.value
       };
     }
   }
