@@ -10,13 +10,13 @@ type LabsoftLastMonthConsumption {
 }
 
 type LabsoftLastMonthDailyConsumption {
-  dailyConsumption: [LabsoftDailyConsumption!]!
+  averageConsumption: LabsoftDailyConsumption!
+  peakConsumption: LabsoftDailyConsumption!
 }
 
 type LabsoftDailyConsumption {
-  day: String!
-  average: Float!
-  peak: Float!
+  labels: [String!]!
+  series: [Float!]!
 }
 
 type LabsoftCurrentMonthBillPreview {

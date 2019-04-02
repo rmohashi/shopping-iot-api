@@ -15,12 +15,31 @@ export default {
 
     LabsoftLastMonthDailyConsumption: async () => {
       const dailyConsumption = await dataSource.getLastMonthDailyConsumption();
-      const mappedDailyConsumption = dailyConsumption.map(singleConsumption => ({
-        ...singleConsumption,
-        day: singleConsumption.day.toISOString(),
-      }));
+      const labels = dailyConsumption.reduce((newArray, singleConsumption) => {
+        newArray.push(singleConsumption.day.toISOString());
+        return newArray;
+      }, []);
+      const peaks = dailyConsumption.reduce((newArray, singleConsumption) => {
+        newArray.push(singleConsumption.peak);
+        return newArray;
+      }, []);
+      const averages = dailyConsumption.reduce((newArray, singleConsumption) => {
+        newArray.push(singleConsumption.average);
+        return newArray;
+      }, []);
+
+      const averageConsumption = {
+        labels: labels,
+        series: averages
+      }
+      const peakConsumption = {
+        labels: labels,
+        series: peaks
+      }
+
       return { 
-        dailyConsumption: mappedDailyConsumption
+        averageConsumption: averageConsumption,
+        peakConsumption: peakConsumption
       };
     },
 

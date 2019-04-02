@@ -1,0 +1,7 @@
+type Query {
+  LabsoftLightingCurrentConsumption: LabsoftLightingCurrentConsumption!
+}
+
+type LabsoftLightingCurrentConsumption {
+  measurement: Float!
+}
