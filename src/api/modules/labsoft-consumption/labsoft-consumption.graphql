@@ -2,6 +2,7 @@ type Query {
   LabsoftLastMonthConsumption: LabsoftLastMonthConsumption!
   LabsoftLastMonthDailyConsumption: LabsoftLastMonthDailyConsumption!
   LabsoftCurrentMonthBillPreview: LabsoftCurrentMonthBillPreview!
+  LabsoftMonthConsumption: [LabsoftMonthConsumption]!
 }
 
 type LabsoftLastMonthConsumption {
@@ -22,4 +23,9 @@ type LabsoftDailyConsumption {
 type LabsoftCurrentMonthBillPreview {
   month: Int!
   value: Float!
+}
+
+type LabsoftMonthConsumption {
+  month: String!
+  average: Float!
 }

@@ -51,6 +51,19 @@ export default {
         month: billingPreview.month,
         value: billingPreview.value
       };
+    },
+
+    LabsoftMonthConsumption: async() => {
+      const monthConsumption = await dataSource.getMonthConsumption();
+      const monthsName = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
+                          "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+      return monthConsumption.map(singleConsumption => { 
+        return {
+          month: monthsName[+format(singleConsumption.month, "M") - 1],
+          average: singleConsumption.average
+        }
+      });
     }
   }
 }
